@@ -1,5 +1,9 @@
 # Django settings for dnafilter_d2 project.
 
+import socket
+
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -19,6 +23,10 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+if socket.gethostname() == 'glb7765':
+    DATABASES['default']['NAME'] = '/home/sebastian/Projects/dnafilter/officialrepo/DNAFilter/django_dnafilter2'
+    
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -83,6 +91,13 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     '/var/www/dnafilterD/dnafilter/templates',
 )
+
+if socket.gethostname() == 'glb7765':
+    TEMPLATE_DIRS = (
+    '/home/sebastian/Projects/dnafilter/officialrepo/DNAFilter/dnafilter/templates',
+)
+    
+
 
 INSTALLED_APPS = (
     'django_pdb',
