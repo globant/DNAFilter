@@ -6,6 +6,7 @@ from Bio import SeqIO
 from filtro3g import FiltroSec, PaintSeq
 
 import sys
+import django_pdb
 sys.stdout = sys.stderr
 
 def is_fasta(text):
@@ -20,6 +21,9 @@ def is_fasta(text):
 
 
 def index(request):
+    if request.method == "POST":
+        return filter(request)
+
     db_list = SequenceBase.objects.all()
     # TO DO:
     # Process db_list to remove path (path disclosure).
