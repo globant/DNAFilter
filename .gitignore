@@ -12,3 +12,4 @@ env
 *~
 out.err
 site_media
+local_settings.py
