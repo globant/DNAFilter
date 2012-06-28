@@ -1,0 +1,14 @@
+syntax: glob
+env
+*~
+*.pyc
+*.ini
+*.swp
+*.orig
+.project
+.pydevproject
+*.db
+.settings
+*~
+out.err
+site_media
