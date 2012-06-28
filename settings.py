@@ -1,8 +1,8 @@
 # Django settings for dnafilter_d2 project.
-
+import os
 import socket
 
-
+DIRNAME = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -24,9 +24,11 @@ DATABASES = {
     }
 }
 
-if socket.gethostname() == 'glb7765':
-    DATABASES['default']['NAME'] = '/home/sebastian/Projects/dnafilter/officialrepo/DNAFilter/django_dnafilter2'
-    
+MEDIA_ROOT = os.path.join(DIRNAME, 'site_media', 'media')
+STATIC_ROOT = os.path.join(DIRNAME, 'site_media', 'static')
+MEDIA_URL = '/site_media/media/'
+STATIC_URL = '/site_media/static/'
+ADMIN_MEDIA_PREFIX = '/site_media/static/admin/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -89,15 +91,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/var/www/dnafilterD/dnafilter/templates',
 )
-
-if socket.gethostname() == 'glb7765':
-    TEMPLATE_DIRS = (
-    '/home/sebastian/Projects/dnafilter/officialrepo/DNAFilter/dnafilter/templates',
-)
-    
-
 
 INSTALLED_APPS = (
     'django_pdb',
@@ -110,5 +104,17 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'django.contrib.staticfiles',
     'dnafilter',
 )
+
+try:
+    from local_settings import *
+    try:
+        INSTALLED_APPS += EXTRA_INSTALLED_APPS
+        MIDDLEWARE_CLASSES += EXTRA_MIDDLEWARE_CLASSES
+    except NameError:
+        pass
+except ImportError:
+    pass
+
