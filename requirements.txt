@@ -1,0 +1,3 @@
+django
+biopython
+django-pdb
