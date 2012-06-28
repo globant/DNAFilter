@@ -71,7 +71,8 @@ def filter(request):
     else:
         seqs = form['seqs']
         if not is_fasta(seqs):
-            return render_to_response('index.html', {'error': True})
+            return render_to_response('index.html', {'error': True},
+                              context_instance=RequestContext(request))
             
     
     # create instance of filter-tool and put uploaded seqs in a temporary file
@@ -156,5 +157,5 @@ def filter(request):
     form['target_seqs'] = '<br>'.join(targets_seqs)
     
     
-    return render_to_response('filter.html', {'form': form})
-#                              context_instance=RequestContext(request))
+    return render_to_response('filter.html', {'form': form},
+                              context_instance=RequestContext(request))
