@@ -1,0 +1,4 @@
+Django==1.4.3
+numpy==1.7.0
+biopython==1.58
+django-pdb==0.3.2
