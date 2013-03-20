@@ -57,7 +57,8 @@ from fabric.contrib.files import exists, upload_template
 from fabric.contrib.console import confirm
 from fabric.context_managers import hide, prefix
 
-env.project_directory = '/root/DNAFilterM/DNAFilter'
+env.project_directory = '/root/DNAFilterM'
+env.project_name = 'DNAFilter'
 
 #Tasks
 def say_hello():
@@ -72,9 +73,10 @@ def production():
     env.user = 'root' # Username used when making SSH connections
     env.password = 'katZ1190' # Connection and sudo password (you can omit it and Fabric will prompt you when necessary)
     env.www_user = 'www-data' # User account under which Apache is running
-    env.virtualenv = '~/virtualenvs/dnafilter.bmhid.org.ar/bin' #virtualenv path
+    env.virtualenv = '~/virtualenvs/dnafilter.bmhid.org.ar' #virtualenv path
     env.deploy_path = '/root/DNAFilterM/releases' #Path where git project will be downloaded
     env.settings_path = '/root/DNAFilterM/local-settings' #Path for src.
+    env.git_url = 'https://github.com/sbassi/DNAFilter.git' #URL from git project.
     
 def deploy_site():
     """
@@ -82,7 +84,6 @@ def deploy_site():
     required third party modules and reload the Apache.
     """
     require('hosts', provided_by = [production])
-    #require('path')
 
     import time
     env.release = time.strftime('%Y%m%d%H%M%S')
@@ -93,6 +94,17 @@ def deploy_site():
     _create_database_schema()
     _reload_apache()
 
+def setup():
+    "Create a new Python virtual environment and folders where our application will be saved. Create project dir and clone it from github"
+    require('hosts', provided_by = [production])
+    require('deploy_path')
+    
+    sudo('easy_install pip')
+    sudo('pip install virtualenv')
+    sudo('mkdir -p %(virtualenv)s; cd %(virtualenv)s; virtualenv --no-site-packages .'  % {'virtualenv': env.virtualenv})
+    sudo('chown -R %(user)s:%(user)s %(virtualenv)s'  % {'user': env.user, 'virtualenv': env.virtualenv})
+    sudo('mkdir -p %(project_directory)s; cd %(project_directory)s; git clone %(git_url)s'  % {'git_url' : env.git_url, 'project_directory' : env.project_directory})
+    
 # Helpers - these are called by other functions rather than directly
 def _upload_archive_from_git():
     "Create an archive from the current Git master branch and upload it"
@@ -103,7 +115,7 @@ def _upload_archive_from_git():
 	# limpio el directorio actual
     run('rm -rf %(deploy_path)s/*' % {'deploy_path' : env.deploy_path})
     # extract zip file
-    run('unzip %(project_directory)s/%(release)s.zip -d %(deploy_path)s' % {'deploy_path': env.deploy_path, 'release': env.release, 'project_directory' : env.project_directory})
+    run('unzip %(project_directory)s/%(project_name)s/%(release)s.zip -d %(deploy_path)s' % {'deploy_path': env.deploy_path, 'release': env.release, 'project_directory' : env.project_directory, 'project_name' : env.project_name})
     print 'git master branch extracted in %(deploy_path)s' % {'deploy_path': env.deploy_path}
 	# delete zip file
     local('rm %(release)s.zip' % {'release': env.release})
@@ -113,7 +125,7 @@ def _install_requirements():
     require('deploy_path', provided_by = [production])
     
     print 'checking requirements from %(deploy_path)s/requirements.txt' % {'deploy_path': env.deploy_path}
-    run('cd %(deploy_path)s; . %(virtualenv)s/activate; pip install -r ./requirements.txt' % {'virtualenv': env.virtualenv, 'deploy_path': env.deploy_path})
+    run('cd %(deploy_path)s; . %(virtualenv)s/bin/activate; pip install -r ./requirements.txt' % {'virtualenv': env.virtualenv, 'deploy_path': env.deploy_path})
     
 def _update_settings():
     "Move the production settings config file"
@@ -130,7 +142,7 @@ def _create_database_schema():
     "Create the database tables for all apps in INSTALLED_APPS whose tables have not already been created"
     require('deploy_path', provided_by = [production])
     
-    run('cd %(deploy_path)s/; . %(virtualenv)s/activate; python manage.py syncdb --noinput --settings=settings.local' % {'deploy_path': env.deploy_path, 'virtualenv': env.virtualenv})
+    run('cd %(deploy_path)s/; . %(virtualenv)s/bin/activate; python manage.py syncdb --noinput --settings=settings.local' % {'deploy_path': env.deploy_path, 'virtualenv': env.virtualenv})
 
 def _reload_apache():
     "Reload the apache server"
