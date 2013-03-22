@@ -76,7 +76,7 @@ def production():
     env.virtualenv = '~/virtualenvs/dnafilter.bmhid.org.ar' #virtualenv path
     env.deploy_path = '/root/DNAFilterM/releases' #Path where git project will be downloaded
     env.settings_path = '/root/DNAFilterM/local-settings' #Path for src.
-    env.git_url = 'https://github.com/sbassi/DNAFilter.git' #URL from git project.
+    env.git_url = 'https://github.com/globant/DNAFilter' #URL from git project.
     
 def deploy_site():
     """
