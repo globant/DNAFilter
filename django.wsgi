@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.append("/var/www/dnafilterD/")
+sys.path.append(os.getcwd())
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 import django.core.handlers.wsgi
