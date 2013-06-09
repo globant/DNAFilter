@@ -2,8 +2,6 @@
 
 import socket
 
-
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -112,3 +110,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'dnafilter',
 )
+
+# load local_settings and execute in this context
+local_settings_path = path.join(PROJECT_ROOT, 'local_settings.py')
+if path.exists(local_settings_path):
+    execfile(local_settings_path)

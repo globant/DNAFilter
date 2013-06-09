@@ -1,3 +1,4 @@
 # Ignored files
 *.pyc
 local.py
+local_settings.py

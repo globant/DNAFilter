@@ -69,9 +69,10 @@ def production():
     "Set Production environment"
     
     # General settings
-    env.hosts = ['173.230.141.206:22'] # One or multiple server addresses in format ip:port
-    env.user = 'root' # Username used when making SSH connections
-    env.password = 'katZ1190' # Connection and sudo password (you can omit it and Fabric will prompt you when necessary)
+    # TODO: Retrieve this data from a non versioned source.
+    env.hosts = [] # One or multiple server addresses in format ip:port
+    env.user = '' # Username used when making SSH connections
+    env.password = '' # Connection and sudo password (you can omit it and Fabric will prompt you when necessary)
     env.www_user = 'www-data' # User account under which Apache is running
     env.virtualenv = '~/virtualenvs/dnafilter.bmhid.org.ar' #virtualenv path
     env.deploy_path = '/root/DNAFilterM/releases' #Path where git project will be downloaded
