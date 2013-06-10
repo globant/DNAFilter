@@ -1,6 +1,7 @@
 # Django settings for dnafilter_d2 project.
 
 import socket
+from os import path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
