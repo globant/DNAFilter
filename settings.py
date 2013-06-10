@@ -2,6 +2,7 @@
 
 import socket
 from os import path
+PROJECT_ROOT = path.dirname(path.realpath(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
