@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.getcwd())
 
-PROJECT_ROOT = os.path.dirname(path.realpath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 #activate_this = "../bin/activate_this.py"
 #activate_this = "/home/ubuntu/projects/dnafilter/deploydj/bin/activate_this.py"
 #activate_this = os.path.join(os.path.dirname(os.getcwd()), "bin/activate_this.py")
