@@ -2,3 +2,4 @@
 *.pyc
 local.py
 local_settings.py
+ubuntuBR.pem

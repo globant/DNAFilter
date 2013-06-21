@@ -39,3 +39,14 @@ Virtual Host:
         CustomLog ${APACHE_LOG_DIR}/dnafilter_access.log combined
 
     </VirtualHost>
+
+# Path to external programs:
+
+Set in local_settings.py the path to the blast executable, the makeblastdb and a directory for user supplied databases.
+For example:
+
+  blast_exe = '/home/USER/ncbi-blast-2.2.28+/bin/blastn'
+  makeblastdb_exe = '/home/USER/ncbi-blast-2.2.28+/bin/makeblastdb'
+  db_path = '/home/USER/ncbi-blast-2.2.28+/db/'
+
+  

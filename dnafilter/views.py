@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from dnafilter.models import SequenceBase
+from django.conf import settings
 
 from Bio import SeqIO
 from filtro3g import FiltroSec, PaintSeq
@@ -28,12 +29,11 @@ def index(request):
 
 def filter(request):
     
-    # TO DO: READ FROM FILE
     cfg = {'paths': 
                      {
-                      'makeblastdb_exe': 'makeblastdb', 
-                      'blast_exe': 'blastn', 
-                      'db_path': '/var/www/dnafilter/db'
+                      'makeblastdb_exe': settings.MAKEBLASTDB_EXE, 
+                      'blast_exe': settings.BLAST_EXE, 
+                      'db_path': settings.DB_PATH,
                      }
            }
     
