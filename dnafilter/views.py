@@ -39,20 +39,20 @@ def filter(request):
     
     
     form = {
-        'blastdb':      request.POST.get('filter-by'),
-        'seqs':         request.POST.get('seqs'),
-        'seqdatafile':  request.POST.get("seqdatafile"),
+        'blastdb': request.POST.get('filter-by'),
+        'seqs': request.POST.get('seqs'),
+        'seqdatafile': request.POST.get("seqdatafile"),
         'input_method': request.POST.get('input_method'),
-        'order':        request.POST.get("order"),
-        'connector':    request.POST.get("connector"),
-        'linker1':      request.POST.get("linker1"),
-        'linker2':      request.POST.get("linker2"),
-        'isize':        request.POST.get("isize", '5'),
+        'order': request.POST.get("order"),
+        'connector': request.POST.get("connector"),
+        'linker1': request.POST.get("linker1"),
+        'linker2': request.POST.get("linker2"),
+        'isize': request.POST.get("isize", '5'),
         'colors': {
-            'vector':       request.POST.get("vector-color"),
-            'connector':    request.POST.get("connector-color"),
-            'linker':       request.POST.get("linker-color"),
-            'mirna':          request.POST.get("mirna-color"),
+            'vector': request.POST.get("vector-color"),
+            'connector': request.POST.get("connector-color"),
+            'linker': request.POST.get("linker-color"),
+            'mirna': request.POST.get("mirna-color"),
         }
     }
     
@@ -81,14 +81,16 @@ def filter(request):
     # apply filters with the specified database
     filtered_fn, bat1_col = filtro.apply_filter(fasta_in_fn, form['blastdb'], 
                                                 color='vector')
-                                                
+    print filtered_fn
+    print bat1_col
+    print "**************"
     # create instance of filter-tool and put uploaded seqs in a temporary file
-    filtro = FiltroSec(cfg)
-    fasta_in_fn = filtro.filesfromseqs(seqs)
+    #filtro = FiltroSec(cfg)
+    #fasta_in_fn = filtro.filesfromseqs(seqs)
 
     # apply filters with the specified database
-    filtered_fn, bat1_col = filtro.apply_filter(fasta_in_fn, form['blastdb'], 
-                                                color='vector')
+    #filtered_fn, bat1_col = filtro.apply_filter(fasta_in_fn, form['blastdb'], 
+    #                                            color='vector')
 
     # Do not color if bat1_col is empty
     col_seqs = []

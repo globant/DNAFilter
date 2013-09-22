@@ -52,9 +52,6 @@ class FiltroSec(object):
 
     Test:
 
-    >>> 2 + 2
-    4
-
     >>> import json
     >>> f = FiltroSec(json.load(open("config.json")))
     >>> fhf = f.apply_filter()
@@ -111,9 +108,7 @@ NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 
     def __init__(self, cfg):
         """
-        Permite indicar las rutas de acceso a la base de vectores
-        utilizada para la busqueda de coincidencias y
-        la herramienta BLAST para realizar el alineamiento
+        Set the path to vector DB and BLAST.
         TODO: Param. mask character.
         """
         self.blastn_path = cfg['paths']["blast_exe"]
@@ -350,6 +345,11 @@ class PaintSeq(object):
         grouped_seq = []
         current_group = []
         current_dict = ext_paint_dict[0]
+        print len(seq)
+        print str(seq)
+        print "---------------"
+        print len(ext_paint_dict)
+        print "---------------"
         for i, value in enumerate(seq):
             if current_dict == ext_paint_dict[i]:
                 current_group.append(value)
