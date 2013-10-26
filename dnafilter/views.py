@@ -5,7 +5,7 @@ from django.conf import settings
 
 from Bio import SeqIO
 from filtro3g import FiltroSec, PaintSeq
-
+import pdb
 import sys
 sys.stdout = sys.stderr
 
@@ -137,9 +137,12 @@ def filter(request):
     col_seqs = []
     targets_seqs = []
     i = 0
+    #print seq
+    #print seq.description
+    #pdb.set_trace()
     for seq in SeqIO.parse(fasta_in_fn, 'fasta'):
         i += 1
-        col_seq = PaintSeq(seq.seq, bat1_col[seq.description], 50, form['isize'])
+        col_seq = PaintSeq(seq.seq, bat1_col[seq.name], 50, form['isize'])
         col_seqs.append('>%s\n%s' % (seq.id, col_seq.new_seq_html))
         targets = []
         j = 0

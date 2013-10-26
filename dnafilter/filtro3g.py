@@ -14,6 +14,7 @@ import os
 import json
 import itertools
 import time
+import pdb
 
 def isoverlapped(s1, s2):
 
@@ -165,17 +166,12 @@ NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
         bat1 = {}
         b_records = NCBIXML.parse(XMLin)
         for b_record in b_records:
-            #print dir(b_record)
             for alin in b_record.alignments:
-                #print '='
-                #print alin.hit_def
-                #print alin.hit_id
-                #print alin.title
                 for hsp in alin.hsps:
                     qs, qe = hsp.query_start, hsp.query_end
                     if qs > qe:
                         qe, qs = qs, qe
-                    bat1.setdefault(b_record.query, set()).add((qs, qe))
+                    bat1.setdefault(b_record.query.split(" ")[0], set()).add((qs, qe))
 
         # sort and merge overlapping segments
         for b_record_query in bat1.keys():
@@ -341,31 +337,21 @@ class PaintSeq(object):
         return ex_color_filter
 
     def _apply_colors(self, seq, ext_paint_dict, seq_width):
-        """ """
-        grouped_seq = []
-        current_group = []
-        current_dict = ext_paint_dict[0]
-        print len(seq)
-        print str(seq)
-        print "---------------"
-        print len(ext_paint_dict)
-        print "---------------"
-        for i, value in enumerate(seq):
-            if current_dict == ext_paint_dict[i]:
-                current_group.append(value)
+        """
+
+        """
+        new_seq = bytearray()
+        for i, x in enumerate(seq):
+            if i in ext_paint_dict and (i+1) % seq_width == 0:
+                new_seq += '<span class="%s">' % ext_paint_dict[i] + x + '</span><br>'
+            elif i in ext_paint_dict and (i+1) % seq_width != 0:
+                new_seq += '<span class="%s">' % ext_paint_dict[i] + x + '</span>'
+            elif i not in ext_paint_dict and (i+1) % seq_width == 0:
+                new_seq += x+'<br>'
             else:
-                grouped_seq.append({current_dict: current_group})
-                current_group = []
-                current_dict = ext_paint_dict[i]
-                current_group.append(value);
-        grouped_seq.append({current_dict: current_group})
-
-        colored_seq = ""
-        for i, item in enumerate(grouped_seq):
-            current = item.popitem()
-            colored_seq += "<span class='%s'>" % current[0] + "".join(current[1]) + "</span>"
-
-        return colored_seq
+                new_seq += x
+        return str(new_seq)
+        
 
     def _getmirna_colors(self, d, isize):
         """
